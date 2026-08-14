@@ -61,7 +61,7 @@ The experiment results are documented in `experiments/results.md`.
                               ▼
                          Langfuse
                        Observability
-
+---
 Each major stage is instrumented using Langfuse's @observe decorator.
 A typical request produces a hierarchical trace:
 run_support_agent
@@ -188,7 +188,7 @@ Langfuse-Agent/
 └── experiments/
     ├── test_cases.md
     └── results.md
-
+--- 
 # Tech Stack
 Technology	    Purpose
 Python	        Backend and agent logic
@@ -398,7 +398,7 @@ Inspect whether:
 - The trace contains an error
 - The error is associated with the correct operation
 - The failure occurred before or during an LLM call
-
+---
 Experiment Results
 Results are stored in:
 experiments/results.md
@@ -415,7 +415,7 @@ Output Tokens
 Total Tokens
 Error Status
 The goal is to use these measurements to identify patterns rather than simply confirming that telemetry exists.
-
+---
 # Analysis
 The experiment is designed to answer several questions.
   # Trace Coverage
@@ -475,7 +475,7 @@ If application-level errors are missing
 Add explicit error instrumentation around API and workflow boundaries.
 If certain agent operations are difficult to debug
 Add additional spans and metadata around those operations.
-
+---
 # Knowledge Base
 The project intentionally uses a simple file-based knowledge base rather than vector search.
 Supported categories:
@@ -493,7 +493,7 @@ The category returned by the classifier determines which document is retrieved.
 Unsupported categories fall back to:
 technical.md
 This keeps the project focused on observability rather than retrieval infrastructure.
-
+---
 # LLM Configuration
 The agent currently uses:
 Model: gpt-4o-mini
@@ -501,7 +501,7 @@ Temperature: 0.2
 The OpenAI client and Langfuse generation instrumentation are implemented in:
 backend/app/services/llm.py
 The model can be changed there if needed.
-
+---
 # Why This Project
 Adding observability to an LLM application is not only about collecting data.
 The telemetry needs to answer practical engineering questions:
@@ -512,7 +512,7 @@ Where is the failure occurring?
 Which workflows need additional instrumentation?
 Is the telemetry detailed enough to debug production issues?
 This project uses a small controlled AI workflow to answer those questions before applying similar instrumentation to larger application workflows.
-
+---
 # Key Takeaway
 This project demonstrates a practical approach to evaluating LLM observability:
                 ┌──────────────────┐
@@ -539,7 +539,7 @@ This project demonstrates a practical approach to evaluating LLM observability:
                          ↓
              Recommend Expansion
 The objective is to evaluate Langfuse using measurable results, identify observability gaps, and determine how telemetry can be expanded across additional LLM and application workflows.
-
+---
 # Future Improvements
 Potential future improvements include:
 Add application-level error instrumentation
@@ -554,7 +554,7 @@ Replace file-based retrieval with vector search
 Add retrieval quality metrics
 Compare latency and token usage across different models
 Add alerting for latency and error thresholds
-
+---
 # Security
 Never commit secrets to the repository.
 The following files and directories should remain ignored:
@@ -564,6 +564,6 @@ __pycache__/
 .pytest_cache/
 *.pyc
 Use .env.example to document required environment variables without exposing real credentials.
-
+---
 # License
 This project is a proof of concept for evaluating LLM observability and telemetry using Langfuse.
