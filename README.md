@@ -576,7 +576,11 @@ refund    → knowledge\_base/refunds.md
 
 technical → knowledge\_base/technical.md
 
-The simple retrieval system keeps the proof of concept focused on telemetry rather than retrieval infrastructure. Key Takeaway
+The simple retrieval system keeps the proof of concept focused on telemetry rather than retrieval infrastructure. 
+
+```
+
+#Key Takeaway
 
 This project demonstrates a practical approach to introducing **LLM observability with Langfuse**.
 
