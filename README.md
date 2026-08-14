@@ -51,9 +51,10 @@ run_support_agent
                   └──► call_llm
                        [Generation]
                        → final response
+---
+
 Each support request produces a Langfuse trace containing the agent workflow, nested pipeline stages, and LLM generations.
 
----
 ```
 ## Telemetry Goals
 
