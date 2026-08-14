@@ -61,6 +61,7 @@ The experiment results are documented in `experiments/results.md`.
                               ▼
                          Langfuse
                        Observability
+
 Each major stage is instrumented using Langfuse's @observe decorator.
 A typical request produces a hierarchical trace:
 run_support_agent
@@ -73,58 +74,62 @@ run_support_agent
 └── generate_response
     └── call_llm
 Each request produces one trace containing six observations:
-Top-level agent span
-Classification chain
-Classification LLM generation
-Knowledge-base tool span
-Response-generation chain
-Response-generation LLM generation
+- Top-level agent span
+- Classification chain
+- Classification LLM generation
+- Knowledge-base tool span
+- Response-generation chain
+- Response-generation LLM generation
 This structure makes it possible to inspect both the complete workflow and individual operations.
-Telemetry
+
+# Telemetry
 1. Traces
 Each support request is represented as a Langfuse trace.
 Traces provide visibility into:
-Complete agent execution
-Individual pipeline stages
-LLM calls
-Inputs and outputs
-Execution timing
-Errors
-Metadata
+- Complete agent execution
+- Individual pipeline stages
+- LLM calls
+- Inputs and outputs
+- Execution timing
+- Errors
+- Metadata
 This allows the workflow to be investigated as a single request rather than as isolated LLM calls.
+
 2. Latency
 The project measures latency at multiple levels.
 Examples include:
-Total request latency
-Agent execution latency
-Ticket classification latency
-Knowledge-base retrieval latency
-Response-generation latency
-Individual LLM call latency
+- Total request latency
+- Agent execution latency
+- Ticket classification latency
+- Knowledge-base retrieval latency
+- Response-generation latency
+- Individual LLM call latency
 The goal is to determine which parts of the workflow contribute most to overall response time.
+
 3. Token Usage
 LLM generations are monitored for:
-Input tokens
-Output tokens
-Total tokens
+- Input tokens
+- Output tokens
+- Total tokens
 Token usage can be compared between different support scenarios to identify:
-High-token operations
-Large prompts
-Large responses
-Potential optimization opportunities
-Potential cost considerations
+- High-token operations
+- Large prompts
+- Large responses
+- Potential optimization opportunities
+- Potential cost considerations
+
 4. Error Tracking
 The project includes a deliberate error scenario using:
 TEST_ERROR
 This allows the experiment to determine whether failures are visible through Langfuse.
 The error experiment evaluates:
-Whether the failed request creates a trace
-Whether the trace records an error
-Where the failure occurs
-Whether errors outside LLM calls are captured
-Whether additional application-level instrumentation is needed
+- Whether the failed request creates a trace
+- Whether the trace records an error
+- Where the failure occurs
+- Whether errors outside LLM calls are captured
+- Whether additional application-level instrumentation is needed
 
-Project Structure
+# Project Structure
 Langfuse-Agent/
 │
 ├── backend/
@@ -184,24 +189,25 @@ Langfuse-Agent/
     ├── test_cases.md
     └── results.md
 
-Tech Stack
-Technology	Purpose
-Python	Backend and agent logic
-FastAPI	REST API
-OpenAI API	LLM inference
-Langfuse	LLM observability and telemetry
-Pydantic	Request and response validation
-pytest	Automated testing
-python-dotenv	Environment configuration
+# Tech Stack
+Technology	    Purpose
+Python	        Backend and agent logic
+FastAPI	        REST API
+OpenAI API	    LLM inference
+Langfuse	      LLM observability and telemetry
+Pydantic	      Request and response validation
+pytest	        Automated testing
+python-dotenv	  Environment configuration
 
-Setup
+# Setup
 Prerequisites
 Before running the project, install:
-Python 3.9+
-Git
-OpenAI API key
-Langfuse account
-Langfuse project
+- Python 3.9+
+- Git
+- OpenAI API key
+- Langfuse account
+- Langfuse project
+
 1. Clone the Repository
 git clone <your-repository-url>
 cd Langfuse-Agent
@@ -218,8 +224,10 @@ Windows
 venv\Scripts\activate
 After activation, your terminal should look similar to:
 (venv) user@computer backend %
+
 3. Install Dependencies
 pip install -r requirements.txt
+
 4. Configure Environment Variables
 Copy the example environment file:
 cp .env.example .env
@@ -241,7 +249,8 @@ __pycache__/
 *.pyc
 .pytest_cache/
 API keys should only be stored in environment variables.
-Running the API
+
+# Running the API
 From the backend directory with the virtual environment activated:
 uvicorn app.main:app --port 8000
 The API will start at:
@@ -251,7 +260,7 @@ INFO:     Application startup complete.
 INFO:     Uvicorn running on http://127.0.0.1:8000
 Keep this terminal running while testing the application.
 
-API Endpoints
+# API Endpoints
 Endpoint	Method	Description
 /	GET	Application liveness check
 /health	GET	Health check
@@ -266,7 +275,8 @@ Expected response:
 {
   "status": "healthy"
 }
-Running the Support Agent
+
+# Running the Support Agent
 Send a support request:
 curl -X POST http://localhost:8000/support \
   -H "Content-Type: application/json" \
@@ -285,7 +295,8 @@ Response Generation
    ↓
 Final Response
 At the same time, Langfuse records the telemetry associated with the workflow.
-Testing Error Handling
+
+# Testing Error Handling
 The application contains a deliberate error scenario.
 Send:
 curl -X POST http://localhost:8000/support \
@@ -296,7 +307,8 @@ curl -X POST http://localhost:8000/support \
   }'
 The endpoint should return an error response.
 This scenario is used to determine whether the error is visible in Langfuse and whether the trace provides enough context to identify where the failure occurred.
-Running Automated Tests
+
+# Running Automated Tests
 The project includes automated tests for the agent and telemetry instrumentation.
 From the backend directory:
 pytest tests/ -v
@@ -317,7 +329,8 @@ Trace URL generation
 These tests validate the application's logic and instrumentation wiring.
 They do not prove that telemetry is successfully appearing in the Langfuse dashboard.
 For that, real telemetry experiments are required.
-Running Telemetry Experiments
+
+# Running Telemetry Experiments
 The project includes a controlled experiment suite in:
 experiments/test_cases.md
 The experiment contains six scenarios:
@@ -329,6 +342,7 @@ Test	Scenario	Purpose
 5	Simulated error	Evaluate error observability
 6	Repeated requests	Build a larger telemetry sample
 The experiment script sends real requests to the application and retrieves the resulting telemetry.
+
 Run the Experiment
 Make sure the API server is running in one terminal.
 Open a second terminal:
@@ -347,38 +361,44 @@ Inspect individual observations
 Evaluate the error scenario
 Write the results to experiments/results.md
 Warning: This experiment uses real OpenAI and Langfuse endpoints and may incur API usage costs.
-Viewing Telemetry in Langfuse
+
+# Viewing Telemetry in Langfuse
 After running the experiments, open your Langfuse project and navigate to the Traces section.
 For a successful request, inspect:
 Trace
-Trace ID
-Trace name
-Status
-Total latency
-Input
-Output
+- Trace ID
+- Trace name
+- Status
+- Total latency
+- Input
+- Output
+
 Classification
-Classification latency
-Input tokens
-Output tokens
-Total tokens
-Model information
+- Classification latency
+- Input tokens
+- Output tokens
+- Total tokens
+- Model information
+
 Knowledge Base
-Retrieval latency
-Selected category
-Retrieved document
+- Retrieval latency
+- Selected category
+- Retrieved document
+
 Response Generation
-Generation latency
-Input tokens
-Output tokens
-Total tokens
-Model information
+- Generation latency
+- Input tokens
+- Output tokens
+- Total tokens
+- Model information
+
 Error Case
 Inspect whether:
-A trace was created
-The trace contains an error
-The error is associated with the correct operation
-The failure occurred before or during an LLM call
+- A trace was created
+- The trace contains an error
+- The error is associated with the correct operation
+- The failure occurred before or during an LLM call
+
 Experiment Results
 Results are stored in:
 experiments/results.md
@@ -396,29 +416,30 @@ Total Tokens
 Error Status
 The goal is to use these measurements to identify patterns rather than simply confirming that telemetry exists.
 
-Analysis
+# Analysis
 The experiment is designed to answer several questions.
-Trace Coverage
+  # Trace Coverage
 Does every successful request produce a trace?
 Are all important pipeline stages visible?
 Are nested LLM calls represented correctly?
 Are failed requests represented?
-Latency
+  # Latency
 Which operation is the slowest?
 How much of the total latency comes from LLM calls?
 Is retrieval contributing meaningful latency?
 Are there unexpected performance bottlenecks?
-Token Usage
+  # Token Usage
 Which LLM operation consumes the most tokens?
 Do complex requests use more tokens?
 Are prompts larger than necessary?
 Are there opportunities to reduce token usage?
-Error Observability
+  # Error Observability
 Are application errors captured?
 Are LLM errors captured?
 Are errors associated with the correct trace?
 Are failures occurring inside or outside instrumented operations?
-Telemetry Expansion Recommendations
+
+# Telemetry Expansion Recommendations
 The purpose of the experiment is to use actual telemetry results to determine how observability should be expanded.
 The evaluation follows:
 Implement
@@ -454,7 +475,8 @@ If application-level errors are missing
 Add explicit error instrumentation around API and workflow boundaries.
 If certain agent operations are difficult to debug
 Add additional spans and metadata around those operations.
-Knowledge Base
+
+# Knowledge Base
 The project intentionally uses a simple file-based knowledge base rather than vector search.
 Supported categories:
 billing
@@ -471,14 +493,16 @@ The category returned by the classifier determines which document is retrieved.
 Unsupported categories fall back to:
 technical.md
 This keeps the project focused on observability rather than retrieval infrastructure.
-LLM Configuration
+
+# LLM Configuration
 The agent currently uses:
 Model: gpt-4o-mini
 Temperature: 0.2
 The OpenAI client and Langfuse generation instrumentation are implemented in:
 backend/app/services/llm.py
 The model can be changed there if needed.
-Why This Project
+
+# Why This Project
 Adding observability to an LLM application is not only about collecting data.
 The telemetry needs to answer practical engineering questions:
 What is slow?
@@ -488,7 +512,8 @@ Where is the failure occurring?
 Which workflows need additional instrumentation?
 Is the telemetry detailed enough to debug production issues?
 This project uses a small controlled AI workflow to answer those questions before applying similar instrumentation to larger application workflows.
-Key Takeaway
+
+# Key Takeaway
 This project demonstrates a practical approach to evaluating LLM observability:
                 ┌──────────────────┐
                 │  Instrument App  │
@@ -514,7 +539,8 @@ This project demonstrates a practical approach to evaluating LLM observability:
                          ↓
              Recommend Expansion
 The objective is to evaluate Langfuse using measurable results, identify observability gaps, and determine how telemetry can be expanded across additional LLM and application workflows.
-Future Improvements
+
+# Future Improvements
 Potential future improvements include:
 Add application-level error instrumentation
 Add production environment tracing
@@ -528,7 +554,8 @@ Replace file-based retrieval with vector search
 Add retrieval quality metrics
 Compare latency and token usage across different models
 Add alerting for latency and error thresholds
-Security
+
+# Security
 Never commit secrets to the repository.
 The following files and directories should remain ignored:
 .env
@@ -537,5 +564,6 @@ __pycache__/
 .pytest_cache/
 *.pyc
 Use .env.example to document required environment variables without exposing real credentials.
-License
+
+# License
 This project is a proof of concept for evaluating LLM observability and telemetry using Langfuse.
