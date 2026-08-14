@@ -54,7 +54,8 @@ run_support_agent
 Each support request produces a Langfuse trace containing the agent workflow, nested pipeline stages, and LLM generations.
 
 ---
-#### Telemetry Goals
+```
+## Telemetry Goals
 
 The primary purpose of this project is to verify that **Langfuse** can provide useful observability data for an LLM application before expanding telemetry to additional application workflows.
 
@@ -67,7 +68,7 @@ The primary purpose of this project is to verify that **Langfuse** can provide u
 | **Observations** | Inspect individual operations within the agent workflow |
 | **LLM Generations** | Monitor model calls, inputs, outputs, and token usage |
 
-##### Why This Matters
+# Why This Matters
 
 The collected telemetry can be used to:
 
@@ -80,7 +81,7 @@ The collected telemetry can be used to:
 
 The goal is not just to add tracing, but to **verify that the telemetry provides actionable information** that can be used to understand, debug, and improve an LLM-powered application.
 
-###### Tech Stack
+# Tech Stack
 
 | Technology | Purpose |
 |---|---|
@@ -92,7 +93,7 @@ The goal is not just to add tracing, but to **verify that the telemetry provides
 | **Pytest** | Automated testing |
 | **Markdown** | Local knowledge base storage |
 
-####### Project Structure
+# Project Structure
 
 ```text
 Langfuse-Agent/
@@ -149,7 +150,7 @@ Langfuse-Agent/
 │   └── results.md
 │
 └── README.md
-
+```
 ## Installation
 
 ### 1. Clone the Repository
