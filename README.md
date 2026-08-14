@@ -62,6 +62,7 @@ The experiment results are documented in `experiments/results.md`.
                          Langfuse
                        Observability
 ---
+
 Each major stage is instrumented using Langfuse's @observe decorator.
 A typical request produces a hierarchical trace:
 run_support_agent
