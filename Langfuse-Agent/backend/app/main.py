@@ -48,12 +48,6 @@ def support(request: SupportRequest):
 
     try:
 
-        # Special test case for telemetry experiments
-        if request.message == "TEST_ERROR":
-            raise RuntimeError(
-                "Simulated agent failure for telemetry testing"
-            )
-
         result = run_support_agent(
             message=request.message,
             user_id=request.user_id,
