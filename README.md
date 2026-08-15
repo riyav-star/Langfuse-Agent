@@ -1,6 +1,6 @@
 # Langfuse-Agent
 
-An AI customer support agent proof of concept built to evaluate **Langfuse observability and telemetry** on an LLM-powered workflow.
+An AI customer support agent proof of concept built to evaluate Langfuse observability and telemetry on an LLM-powered workflow.
 
 The project demonstrates how to instrument an AI agent to capture:
 
